@@ -1,6 +1,7 @@
 package com.globallogic.users.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,16 @@ public class UserDataResponseLogin {
 	@Email
 	private String email;
 	private String password;
-	private String phones;
+	//@JsonInclude(Include.NON_NULL)
+	//private String phones;
+	private List<PhoneResponseDTO> phones;
+	
+	/**
+	 * @param phones the phones to set
+	 */
+	public void setPhones(List<PhoneResponseDTO> phones) {
+		this.phones = phones;
+	}
 
 	/**
 	 * @return the id
@@ -144,14 +154,9 @@ public class UserDataResponseLogin {
 	/**
 	 * @return the phones
 	 */
-	public String getPhones() {
+	public List<PhoneResponseDTO> getPhones() {
 		return phones;
 	}
-
-	/**
-	 * @param phones the phones to set
-	 */
-	public void setPhones(String phones) {
-		this.phones = phones;
-	}
+	
+	
 }

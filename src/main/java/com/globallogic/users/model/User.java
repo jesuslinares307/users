@@ -1,17 +1,23 @@
 package com.globallogic.users.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+
 
 @Entity
 @Table(name = "USERS")
@@ -24,11 +30,15 @@ public class User {
 	@Type(type = "uuid-char")
 	private UUID id;
 
-	@Column(unique = true)
+	//@Column(unique = true)
 	private String name;
+	@Column(unique = true)
 	private String email;
 	private String password;
-	private String phones;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	private List<Phone> phones  = new ArrayList<>();;
 
 	private LocalDateTime created;
 
@@ -53,6 +63,20 @@ public class User {
 	 */
 	public void setId(UUID id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the phones
+	 */
+	public List<Phone> getPhones() {
+		return phones;
+	}
+
+	/**
+	 * @param phones the phones to set
+	 */
+	public void setPhones(List<Phone> phones) {
+		this.phones = phones;
 	}
 
 	/**
@@ -97,19 +121,7 @@ public class User {
 		this.password = password;
 	}
 
-	/**
-	 * @return the phones
-	 */
-	public String getPhones() {
-		return phones;
-	}
-
-	/**
-	 * @param phones the phones to set
-	 */
-	public void setPhones(String phones) {
-		this.phones = phones;
-	}
+	
 
 	/**
 	 * @return the created

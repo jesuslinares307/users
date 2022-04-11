@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * @author Jesus Linares
  * 
  */
-public class CustomException extends Exception {
+public class CustomException extends RuntimeException {
 
 	/**
 	 * 

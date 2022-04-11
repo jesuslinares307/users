@@ -1,6 +1,5 @@
 package com.globallogic.users.exceptions;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -8,7 +7,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,36 +69,50 @@ public class RestExceptionAdvice {
 		return new ResponseEntity<Map<String, ErrorResponse>>(response, HttpStatus.CONFLICT);
 	}
 
-	@ExceptionHandler(NumberFormatException.class)
+	@ExceptionHandler(UserNumberFormatException.class)
 	@ResponseBody
-	// TODO Crear la excepcion NumberFormatException
-	public ResponseEntity<Map<String, ErrorResponse>> numberFormatException(NumberFormatException ex) {
+	public ResponseEntity<Map<String, ErrorResponse>> numberFormatException(UserNumberFormatException ex) {
 		Map<String, ErrorResponse> response = new HashMap<>();
 		ErrorResponse errorResponse = new ErrorResponse();
 		String className = ex.getStackTrace()[0].getClassName();
 		int line = ex.getStackTrace()[0].getLineNumber();
 		logger.error("Exception: " + ex.getMessage() + " - Class: " + className + " - line: " + line);
-		errorResponse.setCodigo(500);
-		errorResponse.setDetail("numero incorrecto");
-		errorResponse.setTimestamp(LocalDateTime.now());
+		errorResponse.setCodigo(ex.getCode());
+		errorResponse.setDetail(ex.getUserMessage());
+		errorResponse.setTimestamp(ex.getTimestamp());
 		response.put("error", errorResponse);
 		return new ResponseEntity<Map<String, ErrorResponse>>(response, HttpStatus.BAD_REQUEST);
 	}
 
-	@ExceptionHandler(DataIntegrityViolationException.class)
+	@ExceptionHandler(UserEmailAlreadyExistiException.class)
 	@ResponseBody
-	// TODO Crear la excepcion DataIntegrityViolationException
 	public ResponseEntity<Map<String, ErrorResponse>> dataIntegrityViolationException(
-			DataIntegrityViolationException ex) {
+			UserEmailAlreadyExistiException ex) {
 		Map<String, ErrorResponse> response = new HashMap<>();
 		ErrorResponse errorResponse = new ErrorResponse();
 		String className = ex.getStackTrace()[0].getClassName();
 		int line = ex.getStackTrace()[0].getLineNumber();
 		logger.error("Exception: " + ex.getMessage() + " - Class: " + className + " - line: " + line);
-		errorResponse.setCodigo(500);
-		errorResponse.setDetail("Este usuario ya existe");
-		errorResponse.setTimestamp(LocalDateTime.now());
+		errorResponse.setCodigo(ex.getCode());
+		errorResponse.setDetail(ex.getUserMessage());
+		errorResponse.setTimestamp(ex.getTimestamp());
 		response.put("error", errorResponse);
 		return new ResponseEntity<Map<String, ErrorResponse>>(response, HttpStatus.CONFLICT);
+	}
+	
+	@ExceptionHandler(DataIntegrationViolationException.class)
+	@ResponseBody
+	public ResponseEntity<Map<String, ErrorResponse>> dataIntegrationViolationException(
+			DataIntegrationViolationException ex) {
+		Map<String, ErrorResponse> response = new HashMap<>();
+		ErrorResponse errorResponse = new ErrorResponse();
+		String className = ex.getStackTrace()[0].getClassName();
+		int line = ex.getStackTrace()[0].getLineNumber();
+		logger.error("Exception: " + ex.getCause() + " - Class: " + className + " - line: " + line + " systemMessage" + ex.systemMessage);
+		errorResponse.setCodigo(ex.getCode());
+		errorResponse.setDetail(ex.getUserMessage());
+		errorResponse.setTimestamp(ex.getTimestamp());
+		response.put("error", errorResponse);
+		return new ResponseEntity<Map<String, ErrorResponse>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
