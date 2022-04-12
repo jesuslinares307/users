@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,17 +19,16 @@ import com.globallogic.users.dto.UserDataResponseLogin;
 import com.globallogic.users.dto.UserRequestDTO;
 import com.globallogic.users.dto.UserResponseDTO;
 import com.globallogic.users.exceptions.UserEmailAlreadyExistsException;
-import com.globallogic.users.services.UserService;
 
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserRestController {
-
-	@Autowired
-	UserController controller;
-
-	@Autowired
-	UserService service;
+	private UserController controller;
+	
+	public UserRestController(
+			UserController controller) {
+			this.controller = controller;
+	}
 
 	@PostMapping("/sign-up")
 	public ResponseEntity<?> create(@Valid @RequestBody UserRequestDTO userRequestDTO) throws UserEmailAlreadyExistsException {
