@@ -1,11 +1,11 @@
 package com.globallogic.users.model;
 
-public class PhoneResponseDTO {
-	
+public class PhoneDTO {
+
 	private long number;
 	private int citycode;
 	private String contrycode;
-	
+
 	/**
 	 * @return the number
 	 */

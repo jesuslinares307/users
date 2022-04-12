@@ -28,14 +28,13 @@ public class UserDataResponseLogin {
 	@Email
 	private String email;
 	private String password;
-	//@JsonInclude(Include.NON_NULL)
-	//private String phones;
-	private List<PhoneResponseDTO> phones;
+	@JsonInclude(Include.NON_NULL)
+	private List<PhoneDTO> phones;
 	
 	/**
 	 * @param phones the phones to set
 	 */
-	public void setPhones(List<PhoneResponseDTO> phones) {
+	public void setPhones(List<PhoneDTO> phones) {
 		this.phones = phones;
 	}
 
@@ -154,7 +153,7 @@ public class UserDataResponseLogin {
 	/**
 	 * @return the phones
 	 */
-	public List<PhoneResponseDTO> getPhones() {
+	public List<PhoneDTO> getPhones() {
 		return phones;
 	}
 	

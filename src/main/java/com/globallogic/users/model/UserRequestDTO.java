@@ -17,18 +17,18 @@ public class UserRequestDTO {
 	@NotNull
 	@Pattern(regexp ="^(?=.*[A-Z]{1})(?=.*[0-9]{2})(?=.*[a-z]).{8,12}")
 	private String password;
-	private List<PhoneRequestDTO> phones;
+	private List<PhoneDTO> phones;
 	
 	/**
 	 * @return the phones
 	 */
-	public List<PhoneRequestDTO> getPhones() {
+	public List<PhoneDTO> getPhones() {
 		return phones;
 	}
 	/**
 	 * @param phones the phones to set
 	 */
-	public void setPhones(List<PhoneRequestDTO> phones) {
+	public void setPhones(List<PhoneDTO> phones) {
 		this.phones = phones;
 	}
 	/**
