@@ -4,9 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.globallogic.users.respositories.UserRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +13,28 @@ import com.globallogic.users.exceptions.UserEmailAlreadyExistiException;
 import com.globallogic.users.exceptions.UserNotFoundException;
 import com.globallogic.users.model.User;
 import com.globallogic.users.model.UserDataResponseLogin;
-import com.globallogic.users.respositories.IUserRepository;
 import com.globallogic.users.security.GeneratorJWT;
 
 @Service
 public class UserService {
-
-	@Autowired
 	private ModelMapper modelMapper;
-
-	@Autowired
-	private IUserRepository repository;
-
-	@Autowired
+	private UserRepository userRepository;
 	private GeneratorJWT generatorJWT;
-
-	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	public UserDataResponseLogin getUserById(UUID id) throws UserNotFoundException {
-		Optional<User> userOpt = this.repository.findById(id);
+	public UserService(
+			ModelMapper modelMapper,
+			UserRepository repository,
+			GeneratorJWT generatorJWT,
+			PasswordEncoder passwordEncoder) {
+		this.modelMapper = modelMapper;
+		this.userRepository = repository;
+		this.generatorJWT = generatorJWT;
+		this.passwordEncoder = passwordEncoder;
+	}
+
+	public UserDataResponseLogin getUserById(UUID id) {
+		Optional<User> userOpt = userRepository.findById(id);
 		User user = null;
 		if (userOpt.isPresent()) {
 			user = userOpt.get();
@@ -41,29 +42,29 @@ public class UserService {
 		} else {
 			throw new UserNotFoundException();
 		}
-		return this.modelMapper.map(user, UserDataResponseLogin.class);
+		return modelMapper.map(user, UserDataResponseLogin.class);
 	}
 
 	public User create(User user) {
-		User savedUser = this.modelMapper.map(user, User.class);
-		savedUser.setCreated(LocalDateTime.now());
-		savedUser.setIsActive(true);
-		savedUser.setLastLogin(null);
-		savedUser.setPassword(passwordEncoder.encode(user.getPassword()));
-		try {
-			savedUser = this.repository.save(savedUser);
-		} catch (DataIntegrityViolationException e) {
+		if (userRepository.findUserByEmail(user.getEmail()).isPresent()) {
 			throw new UserEmailAlreadyExistiException();
 		}
-		savedUser.setToken(this.generateTokenById(savedUser.getId()));
-		return savedUser;
 
+		user.setCreated(LocalDateTime.now());
+		user.setIsActive(true);
+		user.setLastLogin(null);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+		User savedUser = this.userRepository.save(user);
+		savedUser.setToken(this.generateTokenById(savedUser.getId()));
+
+		return savedUser;
 	}
 
 	// Genera el token mediante el UUID y actualiza el token por ID.
-	public String generateTokenById(UUID id) {
-		String token = this.generatorJWT.getJWTToken(id);
-		this.repository.updateTokenById(token, id);
+	private String generateTokenById(UUID id) {
+		String token = generatorJWT.getJWTToken(id);
+		userRepository.updateTokenById(token, id);
 		return token;
 	}
 
