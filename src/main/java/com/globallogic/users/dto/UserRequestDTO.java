@@ -1,4 +1,4 @@
-package com.globallogic.users.model;
+package com.globallogic.users.dto;
 
 
 import java.util.List;

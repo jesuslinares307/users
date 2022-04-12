@@ -84,10 +84,10 @@ public class RestExceptionAdvice {
 		return new ResponseEntity<Map<String, ErrorResponse>>(response, HttpStatus.BAD_REQUEST);
 	}
 
-	@ExceptionHandler(UserEmailAlreadyExistiException.class)
+	@ExceptionHandler(UserEmailAlreadyExistsException.class)
 	@ResponseBody
 	public ResponseEntity<Map<String, ErrorResponse>> dataIntegrityViolationException(
-			UserEmailAlreadyExistiException ex) {
+			UserEmailAlreadyExistsException ex) {
 		Map<String, ErrorResponse> response = new HashMap<>();
 		ErrorResponse errorResponse = new ErrorResponse();
 		String className = ex.getStackTrace()[0].getClassName();

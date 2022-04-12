@@ -30,7 +30,6 @@ public class User {
 	@Type(type = "uuid-char")
 	private UUID id;
 
-	//@Column(unique = true)
 	private String name;
 	@Column(unique = true)
 	private String email;

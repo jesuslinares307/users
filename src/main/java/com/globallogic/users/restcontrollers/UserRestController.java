@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.globallogic.users.controllers.UserController;
-import com.globallogic.users.exceptions.UserEmailAlreadyExistiException;
-import com.globallogic.users.model.UserDataResponseLogin;
-import com.globallogic.users.model.UserRequestDTO;
-import com.globallogic.users.model.UserResponseDTO;
+import com.globallogic.users.dto.UserDataResponseLogin;
+import com.globallogic.users.dto.UserRequestDTO;
+import com.globallogic.users.dto.UserResponseDTO;
+import com.globallogic.users.exceptions.UserEmailAlreadyExistsException;
 import com.globallogic.users.services.UserService;
 
 @RestController
@@ -33,7 +33,7 @@ public class UserRestController {
 	UserService service;
 
 	@PostMapping("/sign-up")
-	public ResponseEntity<?> create(@Valid @RequestBody UserRequestDTO userRequestDTO) throws UserEmailAlreadyExistiException {
+	public ResponseEntity<?> create(@Valid @RequestBody UserRequestDTO userRequestDTO) throws UserEmailAlreadyExistsException {
 		return new ResponseEntity<UserResponseDTO>(this.controller.create(userRequestDTO), HttpStatus.CREATED);
 	}
 

@@ -1,4 +1,4 @@
-package com.globallogic.users.model;
+package com.globallogic.users.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;

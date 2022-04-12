@@ -19,11 +19,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.globallogic.users.exceptions.UserEmailAlreadyExistiException;
+import com.globallogic.users.dto.UserDataResponseLogin;
+import com.globallogic.users.exceptions.UserEmailAlreadyExistsException;
 import com.globallogic.users.exceptions.UserNotFoundException;
 import com.globallogic.users.model.Phone;
 import com.globallogic.users.model.User;
-import com.globallogic.users.model.UserDataResponseLogin;
 import com.globallogic.users.respositories.UserRepository;
 import com.globallogic.users.security.GeneratorJWT;
 
@@ -78,8 +78,8 @@ public class UserServiceTests {
 		final List<Phone> phones = new ArrayList<>();
 		Phone phone = new Phone();
 		phone.setNumber(1234L);
-		phone.setCitycode(123);
-		phone.setContrycode("arg");
+		phone.setCityCode(123);
+		phone.setCountryCode("arg");
 		phones.add(phone);
 		final LocalDateTime created = LocalDateTime.now();
 		final boolean isActive = true;
@@ -123,8 +123,8 @@ public class UserServiceTests {
 		final List<Phone> phones = new ArrayList<>();
 		Phone phone = new Phone();
 		phone.setNumber(1234L);
-		phone.setCitycode(123);
-		phone.setContrycode("arg");
+		phone.setCityCode(123);
+		phone.setCountryCode("arg");
 		phones.add(phone);
 		final String password = "P4ssword";
 
@@ -133,7 +133,7 @@ public class UserServiceTests {
 		given(userRepository.findUserByEmail(userRequest.getEmail())).willReturn(Optional.of(new User()));
 
 		// when/then
-		assertThatThrownBy(() -> underTest.create(userRequest)).isInstanceOf(UserEmailAlreadyExistiException.class);
+		assertThatThrownBy(() -> underTest.create(userRequest)).isInstanceOf(UserEmailAlreadyExistsException.class);
 	}
 
 	private User savedUser(UUID id, String name, String email, List<Phone> phones, LocalDateTime created,

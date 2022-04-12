@@ -6,11 +6,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.globallogic.users.dto.UserDataResponseLogin;
+import com.globallogic.users.dto.UserRequestDTO;
+import com.globallogic.users.dto.UserResponseDTO;
 import com.globallogic.users.exceptions.UserNotFoundException;
 import com.globallogic.users.model.User;
-import com.globallogic.users.model.UserDataResponseLogin;
-import com.globallogic.users.model.UserRequestDTO;
-import com.globallogic.users.model.UserResponseDTO;
 import com.globallogic.users.services.UserService;
 
 @Controller

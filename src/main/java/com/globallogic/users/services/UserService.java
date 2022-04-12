@@ -9,10 +9,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.globallogic.users.exceptions.UserEmailAlreadyExistiException;
+import com.globallogic.users.dto.UserDataResponseLogin;
+import com.globallogic.users.exceptions.UserEmailAlreadyExistsException;
 import com.globallogic.users.exceptions.UserNotFoundException;
 import com.globallogic.users.model.User;
-import com.globallogic.users.model.UserDataResponseLogin;
 import com.globallogic.users.security.GeneratorJWT;
 
 @Service
@@ -47,7 +47,7 @@ public class UserService {
 
 	public User create(User user) {
 		if (userRepository.findUserByEmail(user.getEmail()).isPresent()) {
-			throw new UserEmailAlreadyExistiException();
+			throw new UserEmailAlreadyExistsException();
 		}
 
 		user.setCreated(LocalDateTime.now());

@@ -3,6 +3,7 @@ package com.globallogic.users.model;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,8 +15,6 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-
-
 @Entity
 @Table(name = "PHONE")
 public class Phone {
@@ -26,14 +25,16 @@ public class Phone {
 	@Type(type = "uuid-char")
 	private UUID id;
 	private long number;
-	private int citycode;
-	private String contrycode;
 	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.REFRESH})
-    @JoinColumn(name = "user_id")
-    private User user;
-	
+	@Column(name = "city_code")
+	private int cityCode;
+	@Column(name = "country_code")
+	private String countryCode;
+
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH })
+	@JoinColumn(name = "user_id")
+	private User user;
+
 	/**
 	 * @return the id
 	 */
@@ -47,41 +48,46 @@ public class Phone {
 	public void setId(UUID id) {
 		this.id = id;
 	}
-	
+
 	/**
 	 * @return the number
 	 */
 	public long getNumber() {
 		return number;
 	}
+
 	/**
 	 * @param number the number to set
 	 */
 	public void setNumber(long number) {
 		this.number = number;
 	}
+
 	/**
-	 * @return the citycode
+	 * @return the cityCode
 	 */
-	public int getCitycode() {
-		return citycode;
+	public int getCityCode() {
+		return cityCode;
 	}
+
 	/**
-	 * @param citycode the citycode to set
+	 * @param cityCode the cityCode to set
 	 */
-	public void setCitycode(int citycode) {
-		this.citycode = citycode;
+	public void setCityCode(int cityCode) {
+		this.cityCode = cityCode;
 	}
+
 	/**
-	 * @return the contrycode
+	 * @return the countryCode
 	 */
-	public String getContrycode() {
-		return contrycode;
+	public String getCountryCode() {
+		return countryCode;
 	}
+
 	/**
-	 * @param contrycode the contrycode to set
+	 * @param countryCode the countryCode to set
 	 */
-	public void setContrycode(String contrycode) {
-		this.contrycode = contrycode;
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 }

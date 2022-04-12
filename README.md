@@ -12,9 +12,16 @@ de UUID a traves de dicho token.
 
 Este primer endpoint necesita de un request con la siguiente estructura: 
 {
-    "name":"testing",
-    "email": "jesus@gmail.com",
-    "password": "esgintd23"
+    "name":"String",
+    "email": "String",
+    "password": "Stringgg01"
+    "phones": [
+        {
+            "number": 01,
+            "cityCode": 011,
+            "countryCode": "string"
+        }
+    ]
    
 }
 
@@ -53,7 +60,13 @@ Un ejemplo del response que trae estos datos precargados, es el siguiente:
       "name": "jesus",
       "email": "jesus@test.com",
       "password": "1234",
-      "phones": "1125252525"
+      "phones": [
+        {
+            "number": 675678,
+            "cityCode": 11,
+            "countryCode": "BA"
+        }
+    ]
       
 }
 	
