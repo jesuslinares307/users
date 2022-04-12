@@ -15,10 +15,10 @@ public class CustomException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected int code;
-	protected String userMessage;
-	protected String systemMessage;
-	protected LocalDateTime timestamp;
+	private int code;
+	private String userMessage;
+	private String systemMessage;
+	private LocalDateTime timestamp;
 
 	public CustomException(int code, String userMessage, String systemMessage) {
 		super();

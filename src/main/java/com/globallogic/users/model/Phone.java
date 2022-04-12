@@ -1,5 +1,7 @@
 package com.globallogic.users.model;
 
+import java.util.Comparator;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -25,7 +27,7 @@ public class Phone {
 	@Type(type = "uuid-char")
 	private UUID id;
 	private long number;
-	
+
 	@Column(name = "city_code")
 	private int cityCode;
 	@Column(name = "country_code")
@@ -90,4 +92,54 @@ public class Phone {
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
 	}
+
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId(), getCountryCode(), getCityCode(), getNumber(), getUser());
+	}
+
+
+	@Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Phone)) {
+            return false;
+        }
+
+        Phone other = (Phone) obj;
+        Boolean user = this.user.equals(other.getUser());
+
+
+        Boolean sameFields = 0 == Comparator.comparing(Phone::getId)
+                .thenComparing(Phone::getCountryCode)
+                .thenComparing(Phone::getCityCode)
+                .thenComparing(Phone::getNumber)
+                .compare(this, (Phone) obj);
+
+        return user && sameFields;
+    }
+
+
+	@Override
+	public String toString() {
+		return "Phone [id=" + id + ", number=" + number + ", cityCode=" + cityCode + ", countryCode=" + countryCode
+				+ ", user=" + user + "]";
+	}	
 }

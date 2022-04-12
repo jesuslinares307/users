@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.globallogic.users.respositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +12,7 @@ import com.globallogic.users.dto.UserDataResponseLogin;
 import com.globallogic.users.exceptions.UserEmailAlreadyExistsException;
 import com.globallogic.users.exceptions.UserNotFoundException;
 import com.globallogic.users.model.User;
+import com.globallogic.users.repositories.UserRepository;
 import com.globallogic.users.security.GeneratorJWT;
 
 @Service

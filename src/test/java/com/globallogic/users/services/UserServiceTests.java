@@ -24,7 +24,7 @@ import com.globallogic.users.exceptions.UserEmailAlreadyExistsException;
 import com.globallogic.users.exceptions.UserNotFoundException;
 import com.globallogic.users.model.Phone;
 import com.globallogic.users.model.User;
-import com.globallogic.users.respositories.UserRepository;
+import com.globallogic.users.repositories.UserRepository;
 import com.globallogic.users.security.GeneratorJWT;
 
 @ExtendWith(MockitoExtension.class)

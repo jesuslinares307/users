@@ -1,4 +1,4 @@
-package com.globallogic.users.respositories;
+package com.globallogic.users.repositories;
 
 import java.util.Optional;
 import java.util.UUID;

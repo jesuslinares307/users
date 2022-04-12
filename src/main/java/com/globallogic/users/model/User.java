@@ -2,7 +2,9 @@ package com.globallogic.users.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -17,7 +19,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-
 
 @Entity
 @Table(name = "USERS")
@@ -34,10 +35,10 @@ public class User {
 	@Column(unique = true)
 	private String email;
 	private String password;
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
-	private List<Phone> phones  = new ArrayList<>();;
+	private List<Phone> phones = new ArrayList<>();;
 
 	private LocalDateTime created;
 
@@ -120,8 +121,6 @@ public class User {
 		this.password = password;
 	}
 
-	
-
 	/**
 	 * @return the created
 	 */
@@ -178,4 +177,43 @@ public class User {
 		this.token = token;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId(), getName(), getEmail(), getPassword(), getPhones(), getCreated(), getLastLogin(),
+				isIsActive(), getToken());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof User)) {
+			return false;
+		}
+
+		User other= (User) obj;
+		Boolean phone = this.phones.equals(other.getPhones());
+
+		Boolean sameFields = 0 == Comparator.comparing(User::getId)
+                .thenComparing(User::getName)
+                .thenComparing(User::getEmail)
+                .thenComparing(User::getPassword)
+                .thenComparing(User::getCreated)
+                .thenComparing(User::getLastLogin)
+                .thenComparing(User::isIsActive)
+                .thenComparing(User::getToken)
+                
+                .compare(this, (User) obj);
+
+		return phone && sameFields;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", phones="
+				+ phones + ", created=" + created + ", lastLogin=" + lastLogin + ", isActive=" + isActive + ", token="
+				+ token + "]";
+	}
 }

@@ -108,7 +108,7 @@ public class RestExceptionAdvice {
 		ErrorResponse errorResponse = new ErrorResponse();
 		String className = ex.getStackTrace()[0].getClassName();
 		int line = ex.getStackTrace()[0].getLineNumber();
-		logger.error("Exception: " + ex.getCause() + " - Class: " + className + " - line: " + line + " systemMessage" + ex.systemMessage);
+		logger.error("Exception: " + ex.getCause() + " - Class: " + className + " - line: " + line + " systemMessage" + ex.getSystemMessage());
 		errorResponse.setCodigo(ex.getCode());
 		errorResponse.setDetail(ex.getUserMessage());
 		errorResponse.setTimestamp(ex.getTimestamp());
